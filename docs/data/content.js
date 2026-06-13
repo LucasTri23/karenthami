@@ -57,8 +57,8 @@ const CONTENT = {
       date: "",
       icon: "💍",
       title: "O pedido de namoro",
-      text: "O dia em que ficou oficial. ✏️ Espaço reservado pra vocês contarem essa história: onde foi, o que rolou, e quem ficou mais nervoso (a gente sabe que foi um de vocês 😏). As fotos já estão aqui — só falta a data e os detalhes!",
-      images: ["pedido-1.jpg", "pedido-2.jpg", "pedido-3.jpg", "pedido-4.jpg"]
+      text: "Girassóis, chocolates, um beijo e um \"sim\". O dia em que ficou oficial. ✏️ Espaço reservado pra vocês contarem essa história: onde foi, o que rolou, e quem ficou mais nervoso (a gente sabe que foi um de vocês 😏). As fotos já estão aqui — só falta a data e os detalhes!",
+      images: ["pedido-2.jpg", "pedido-3.jpg", "pedido-4.jpg", "pedido-1.jpg"]
     },
     {
       date: "2024-12-23",
@@ -80,9 +80,11 @@ const CONTENT = {
     },
     {
       date: "",
-      icon: "🗺️",
-      title: "Outro marco de vocês",
-      text: "Aniversário de namoro, primeira viagem, mudança de casa... adicione quantos marcos especiais quiser, é só copiar este bloco no array \"milestones\"."
+      dateLabel: "Lado a lado também na fé",
+      icon: "📖",
+      title: "Servindo juntos a Jeová",
+      text: "Vocês também são Testemunhas de Jeová, e isso é parte de quem vocês são: campanha especial de pregação, reunião de pioneiros do circuito, assembleias... servir a Jeová lado a lado é só mais uma das muitas coisas que vocês compartilham.",
+      images: ["campanha-pregacao.jpg", "reuniao-pioneiros.jpg"]
     },
     {
       date: "today",
@@ -100,7 +102,7 @@ const CONTENT = {
     messages: 1028,
     title: "O dia em que o WhatsApp quase travou",
     text: "Nesse sábado, Lucas estava em um compromisso o dia inteiro (e olha, até apareceu de terno!), bem longe da Karen. Resultado: o \"bom dia\" às 6h30 virou uma maratona de mensagens que só terminou perto da meia-noite, com um \"Te amo. Te amo.\" antes de dormir. No total, 1.028 mensagens em 24 horas — nosso recorde de todos os tempos. Ou seja: distância física é fácil quando a vontade de falar um com o outro é maior. 👀💌",
-    photo: "2025-06-28-0050.jpg"
+    photo: "lucas-1.jpg"
   },
 
   // ----------------------------------------------------------

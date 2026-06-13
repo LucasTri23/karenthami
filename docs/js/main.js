@@ -433,15 +433,10 @@
 
   /* ---------- gallery ---------- */
 
-  function initGallery(photos, storyPhotos) {
+  function initGallery(storyPhotos) {
     const grid = document.getElementById("galleryGrid");
 
-    const all = [
-      ...storyPhotos.map((p) => ({ file: p.file, caption: p.caption })),
-      ...photos.map((p) => ({ file: p.file, caption: formatDateLong(p.date) }))
-    ];
-
-    all.forEach((photo) => {
+    storyPhotos.forEach((photo) => {
       const item = document.createElement("div");
       item.className = "gallery-item tilt reveal";
       const img = document.createElement("img");
@@ -506,16 +501,15 @@
     initHistoricDay();
     initLetter();
 
-    const [stats, photos, storyPhotos] = await Promise.all([
+    const [stats, storyPhotos] = await Promise.all([
       fetch("data/stats.json").then((r) => r.json()),
-      fetch("data/photos.json").then((r) => r.json()),
       fetch("data/story-photos.json").then((r) => r.json())
     ]);
 
     initStatCards(stats);
     initLoveBoard(stats);
     initCharts(stats);
-    initGallery(photos, storyPhotos);
+    initGallery(storyPhotos);
 
     // run reveal/tilt observers after dynamic content is in the DOM
     initRevealObserver();
