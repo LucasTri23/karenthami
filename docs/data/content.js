@@ -10,6 +10,10 @@
   - Datas usam o formato "AAAA-MM-DD".
   - Pode adicionar quantos itens quiser em "milestones".
   - "icon" aceita qualquer emoji.
+  - "date: \"\"" mostra "✏️ adicione a data". Se quiser um texto
+    customizado no lugar (ex: "Há muitos anos..."), use "dateLabel".
+  - "images" (opcional) é uma lista de arquivos de
+    assets/img/ pra mostrar como uma faixinha de fotos no card.
   ============================================================
 */
 
@@ -29,16 +33,32 @@ const CONTENT = {
   // ----------------------------------------------------------
   milestones: [
     {
+      date: "",
+      dateLabel: "Há muitos anos...",
+      icon: "🧒",
+      title: "Onde tudo começou",
+      text: "Bem antes de qualquer mensagem, Lucas e Karen já eram Lucas e Karen: duas crianças que se conheceram e ficaram amigas sem fazer ideia do que o futuro guardava. Só que a vida resolveu testar essa amizade — Karen precisou se mudar de cidade, o contato foi se perdendo, e essa história quase ficou só na lembrança... quase.",
+      images: ["infancia-1.jpg", "infancia-2.jpg", "infancia-3.jpg"]
+    },
+    {
       date: "2024-04-07",
       icon: "💬",
-      title: "A primeira mensagem",
-      text: "01h31 da manhã. Uma conversa qualquer que virou a conversa mais longa da nossa vida. Dali pra frente, foram mais de 106 mil mensagens."
+      title: "A primeira mensagem (de novo)",
+      text: "01h31 da manhã, depois de anos sem trocar uma palavra. Uma conversa qualquer que virou a conversa mais longa da nossa vida — prova de que amizade de infância não esquece, só fica pausada esperando o momento certo. Dali pra frente, foram mais de 106 mil mensagens.",
+      images: ["reencontro-1.jpg", "reencontro-2.jpg"]
     },
     {
       date: "2024-05-18",
       icon: "🤍",
       title: "O primeiro \"te amo\"",
       text: "Lucas mandou primeiro, num sábado de manhã: \"te amo com a alma 🤍\". Karen respondeu na mesma hora. De lá pra cá, já são mais de 1.000 \"te amo\" trocados."
+    },
+    {
+      date: "",
+      icon: "💍",
+      title: "O pedido de namoro",
+      text: "O dia em que ficou oficial. ✏️ Espaço reservado pra vocês contarem essa história: onde foi, o que rolou, e quem ficou mais nervoso (a gente sabe que foi um de vocês 😏). As fotos já estão aqui — só falta a data e os detalhes!",
+      images: ["pedido-1.jpg", "pedido-2.jpg", "pedido-3.jpg", "pedido-4.jpg"]
     },
     {
       date: "2024-12-23",
@@ -56,13 +76,13 @@ const CONTENT = {
       date: "",
       icon: "✏️",
       title: "Nosso primeiro encontro",
-      text: "Espaço reservado pra vocês! Edite este card em data/content.js e contem como foi a primeira vez que se viram pessoalmente."
+      text: "Espaço reservado pra vocês! Edite este card em data/content.js e contem como foi a primeira vez que se viram pessoalmente depois do reencontro."
     },
     {
       date: "",
-      icon: "💍",
+      icon: "🗺️",
       title: "Outro marco de vocês",
-      text: "Aniversário de namoro, primeira viagem, pedido de namoro... adicione quantos marcos especiais quiser, é só copiar este bloco no array \"milestones\"."
+      text: "Aniversário de namoro, primeira viagem, mudança de casa... adicione quantos marcos especiais quiser, é só copiar este bloco no array \"milestones\"."
     },
     {
       date: "today",

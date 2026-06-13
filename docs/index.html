@@ -13,6 +13,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    // Aplica o tema salvo antes de renderizar, pra evitar flash de tela clara.
+    (function () {
+      var saved = localStorage.getItem("theme");
+      var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (saved === "dark" || (!saved && prefersDark)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
 </head>
 <body>
 
@@ -20,20 +31,27 @@
 
   <nav class="navbar" id="navbar">
     <a href="#hero" class="nav-logo">Lucas <span class="heart-icon">♥</span> Karen</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">☰</button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#numeros">Números</a></li>
-      <li><a href="#palavras">Te amo</a></li>
-      <li><a href="#rotina">Rotina</a></li>
-      <li><a href="#marcos">Marcos</a></li>
-      <li><a href="#diahistorico">Dia histórico</a></li>
-      <li><a href="#galeria">Fotos</a></li>
-      <li><a href="#carta">Carta</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#numeros">Números</a></li>
+        <li><a href="#palavras">Te amo</a></li>
+        <li><a href="#rotina">Rotina</a></li>
+        <li><a href="#marcos">Marcos</a></li>
+        <li><a href="#diahistorico">Dia histórico</a></li>
+        <li><a href="#galeria">Fotos</a></li>
+        <li><a href="#carta">Carta</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo escuro">
+        <span class="theme-toggle-icon theme-toggle-sun">☀️</span>
+        <span class="theme-toggle-icon theme-toggle-moon">🌙</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">☰</button>
+    </div>
   </nav>
 
   <!-- HERO -->
-  <header class="hero" id="hero" style="background-image: url('assets/img/2025-06-28-0050.jpg')">
+  <header class="hero" id="hero">
+    <div class="hero-bg" style="background-image: url('assets/img/2025-06-28-0050.jpg')"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <p class="hero-kicker">Desde 07 de abril de 2024</p>
@@ -79,32 +97,32 @@
         <p class="section-subtitle">Direto do nosso histórico de conversas — sim, foi tudo contado mesmo.</p>
 
         <div class="cards-grid">
-          <div class="stat-card">
+          <div class="stat-card tilt">
             <span class="stat-icon">💬</span>
             <span class="stat-number" data-stat="totals.messages">0</span>
             <span class="stat-label">mensagens trocadas</span>
           </div>
-          <div class="stat-card">
+          <div class="stat-card tilt">
             <span class="stat-icon">📅</span>
             <span class="stat-number" data-live="daysTogether">0</span>
             <span class="stat-label">dias juntos (e contando)</span>
           </div>
-          <div class="stat-card">
+          <div class="stat-card tilt">
             <span class="stat-icon">📈</span>
             <span class="stat-number" data-stat="totals.avgPerDay">0</span>
             <span class="stat-label">mensagens por dia, em média</span>
           </div>
-          <div class="stat-card">
+          <div class="stat-card tilt">
             <span class="stat-icon">📸</span>
             <span class="stat-number" data-stat="totals.media">0</span>
             <span class="stat-label">fotos, vídeos e áudios enviados</span>
           </div>
-          <div class="stat-card">
+          <div class="stat-card tilt">
             <span class="stat-icon">✍️</span>
             <span class="stat-number" data-stat="totals.words">0</span>
             <span class="stat-label">palavras escritas</span>
           </div>
-          <div class="stat-card">
+          <div class="stat-card tilt">
             <span class="stat-icon">💖</span>
             <span class="stat-number" data-stat="totals.teAmoTotal">0</span>
             <span class="stat-label">"te amo" trocados</span>
@@ -121,7 +139,7 @@
         <p class="section-subtitle">O placar de quem manda "te amo" primeiro (e mais vezes).</p>
 
         <div class="love-board">
-          <div class="love-card" id="loveCardA">
+          <div class="love-card tilt" id="loveCardA">
             <span class="love-emoji">💙</span>
             <span class="love-name" id="loveNameA">Lucas</span>
             <span class="love-count" data-stat="people.lucas.teAmo">0</span>
@@ -136,7 +154,7 @@
             <span class="vs-label">VS</span>
           </div>
 
-          <div class="love-card" id="loveCardB">
+          <div class="love-card tilt" id="loveCardB">
             <span class="love-emoji">💖</span>
             <span class="love-name" id="loveNameB">Karen</span>
             <span class="love-count" data-stat="people.karen.teAmo">0</span>
@@ -157,11 +175,11 @@
         <p class="section-subtitle">Os horários e dias da semana em que a gente mais troca mensagem.</p>
 
         <div class="charts-grid">
-          <div class="chart-card">
+          <div class="chart-card tilt">
             <h3>Por horário do dia</h3>
             <canvas id="hourChart"></canvas>
           </div>
-          <div class="chart-card">
+          <div class="chart-card tilt">
             <h3>Por dia da semana</h3>
             <canvas id="dowChart"></canvas>
           </div>
@@ -192,7 +210,7 @@
           <p class="historic-count"><span id="historicMessages">0</span> mensagens em 24 horas</p>
           <p class="historic-story" id="historicStory"></p>
         </div>
-        <div class="historic-photo">
+        <div class="historic-photo tilt">
           <img id="historicPhoto" src="" alt="Foto do dia histórico" loading="lazy">
         </div>
       </div>

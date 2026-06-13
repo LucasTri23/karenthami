@@ -11,10 +11,29 @@
   --gold: #f3c95d;
   --text-dark: #3a2c30;
   --text-light: #8a7176;
+  --card-bg: #ffffff;
+  --navbar-bg: rgba(255, 248, 245, 0.7);
+  --navbar-bg-scrolled: rgba(255, 248, 245, 0.95);
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Poppins', sans-serif;
   --font-script: 'Caveat', cursive;
   --shadow: 0 10px 30px rgba(216, 78, 104, 0.12);
+  --shadow-hover: 0 16px 36px rgba(216, 78, 104, 0.18);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --rose-light: rgba(232, 83, 107, 0.16);
+  --cream: #181014;
+  --cream-alt: #1f161b;
+  --text-dark: #f6ebee;
+  --text-light: #b69ba2;
+  --card-bg: #2a2128;
+  --navbar-bg: rgba(24, 16, 20, 0.6);
+  --navbar-bg-scrolled: rgba(24, 16, 20, 0.92);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.55);
+  color-scheme: dark;
 }
 
 * {
@@ -33,6 +52,7 @@ body {
   background: var(--cream);
   line-height: 1.6;
   overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 img {
@@ -83,14 +103,20 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 14px 5%;
-  background: rgba(255, 248, 245, 0.7);
+  background: var(--navbar-bg);
   backdrop-filter: blur(10px);
   transition: background 0.3s, box-shadow 0.3s;
 }
 
 .navbar.scrolled {
-  background: rgba(255, 248, 245, 0.95);
+  background: var(--navbar-bg-scrolled);
   box-shadow: 0 2px 16px rgba(216, 78, 104, 0.08);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .nav-logo {
@@ -145,6 +171,57 @@ a {
   color: var(--rose-dark);
 }
 
+/* =========================================================
+   THEME TOGGLE
+   ========================================================= */
+.theme-toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--rose-light);
+  background: var(--card-bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 240px;
+  box-shadow: var(--shadow);
+  transition: background 0.3s, transform 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08);
+}
+
+.theme-toggle-icon {
+  position: absolute;
+  font-size: 1.05rem;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease, opacity 0.4s ease;
+}
+
+.theme-toggle-sun {
+  transform: rotateY(0deg);
+  opacity: 1;
+}
+
+.theme-toggle-moon {
+  transform: rotateY(180deg);
+  opacity: 0;
+}
+
+[data-theme="dark"] .theme-toggle-sun {
+  transform: rotateY(-180deg);
+  opacity: 0;
+}
+
+[data-theme="dark"] .theme-toggle-moon {
+  transform: rotateY(0deg);
+  opacity: 1;
+}
+
 @media (max-width: 860px) {
   .nav-toggle {
     display: block;
@@ -156,7 +233,7 @@ a {
     left: 0;
     right: 0;
     flex-direction: column;
-    background: rgba(255, 248, 245, 0.98);
+    background: var(--navbar-bg-scrolled);
     backdrop-filter: blur(10px);
     padding: 16px 5% 24px;
     gap: 14px;
@@ -185,9 +262,17 @@ a {
   align-items: center;
   justify-content: center;
   text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
   background-size: cover;
   background-position: center;
-  color: #fff;
+  transform: scale(1.1);
+  will-change: transform;
 }
 
 .hero-overlay {
@@ -339,6 +424,15 @@ a {
 }
 
 /* =========================================================
+   EFEITO 3D (TILT)
+   ========================================================= */
+.tilt {
+  transition: transform 0.2s ease-out, box-shadow 0.25s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* =========================================================
    STAT CARDS
    ========================================================= */
 .cards-grid {
@@ -348,7 +442,7 @@ a {
 }
 
 .stat-card {
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 18px;
   padding: 32px 18px;
   box-shadow: var(--shadow);
@@ -356,12 +450,10 @@ a {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  transition: transform 0.25s, box-shadow 0.25s;
 }
 
 .stat-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 36px rgba(216, 78, 104, 0.18);
+  box-shadow: var(--shadow-hover);
 }
 
 .stat-icon {
@@ -400,7 +492,7 @@ a {
 }
 
 .love-card {
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 22px;
   padding: 36px 28px;
   box-shadow: var(--shadow);
@@ -517,7 +609,7 @@ a {
 }
 
 .chart-card {
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 18px;
   padding: 24px;
   box-shadow: var(--shadow);
@@ -580,7 +672,7 @@ a {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--card-bg);
   box-shadow: var(--shadow);
   display: flex;
   align-items: center;
@@ -590,7 +682,7 @@ a {
 }
 
 .timeline-card {
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 18px 22px;
   box-shadow: var(--shadow);
@@ -615,6 +707,22 @@ a {
 .timeline-text {
   font-size: 0.92rem;
   color: var(--text-light);
+}
+
+.timeline-photos {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.timeline-photo {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
 }
 
 @media (min-width: 720px) {
@@ -748,6 +856,25 @@ a {
   transform: scale(1.08);
 }
 
+.gallery-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px 10px 8px;
+  font-size: 0.78rem;
+  color: #fff;
+  text-align: center;
+  background: linear-gradient(180deg, transparent, rgba(20, 8, 14, 0.75));
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+}
+
 /* =========================================================
    LIGHTBOX
    ========================================================= */
@@ -822,7 +949,7 @@ a {
   align-items: center;
   justify-content: center;
   gap: 14px;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 20px;
   box-shadow: var(--shadow);
   cursor: pointer;
@@ -845,7 +972,7 @@ a {
 
 .letter-paper {
   position: relative;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 20px;
   box-shadow: var(--shadow);
   padding: clamp(28px, 6vw, 56px);

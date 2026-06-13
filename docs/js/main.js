@@ -41,6 +41,97 @@
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   }
 
+  function getCssVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  /* ---------- tema (claro/escuro) ---------- */
+
+  function initThemeToggle() {
+    const root = document.documentElement;
+    const toggle = document.getElementById("themeToggle");
+
+    toggle.addEventListener("click", () => {
+      const isDark = root.getAttribute("data-theme") === "dark";
+      const next = isDark ? "light" : "dark";
+      if (next === "dark") {
+        root.setAttribute("data-theme", "dark");
+      } else {
+        root.removeAttribute("data-theme");
+      }
+      localStorage.setItem("theme", next);
+      applyChartTheme();
+    });
+  }
+
+  /* ---------- efeito 3D (tilt) ---------- */
+
+  function initTilt() {
+    document.querySelectorAll(".tilt").forEach((el) => {
+      if (el.dataset.tiltBound) return;
+      el.dataset.tiltBound = "true";
+
+      el.addEventListener("mousemove", (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        const rotateX = (-y * 12).toFixed(2);
+        const rotateY = (x * 12).toFixed(2);
+        el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+      });
+
+      el.addEventListener("mouseleave", () => {
+        el.style.transform = "";
+      });
+    });
+  }
+
+  /* ---------- parallax do hero ---------- */
+
+  function initParallax() {
+    const heroBg = document.querySelector(".hero-bg");
+    const hero = document.getElementById("hero");
+    if (!heroBg || !hero) return;
+
+    function onScroll() {
+      const max = hero.offsetHeight;
+      const y = Math.min(window.scrollY, max);
+      heroBg.style.transform = `translateY(${y * 0.35}px) scale(1.1)`;
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ---------- lightbox (compartilhado) ---------- */
+
+  let lightboxEl, lightboxImgEl, lightboxCaptionEl;
+
+  function initLightbox() {
+    lightboxEl = document.getElementById("lightbox");
+    lightboxImgEl = document.getElementById("lightboxImg");
+    lightboxCaptionEl = document.getElementById("lightboxCaption");
+    const closeBtn = document.getElementById("lightboxClose");
+
+    closeBtn.addEventListener("click", closeLightbox);
+    lightboxEl.addEventListener("click", (e) => {
+      if (e.target === lightboxEl) closeLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+  }
+
+  function openLightbox(src, caption) {
+    lightboxImgEl.src = src;
+    lightboxCaptionEl.textContent = caption || "";
+    lightboxEl.classList.add("open");
+  }
+
+  function closeLightbox() {
+    lightboxEl.classList.remove("open");
+  }
+
   /* ---------- navbar ---------- */
 
   function initNavbar() {
@@ -201,10 +292,22 @@
 
   /* ---------- charts ---------- */
 
+  let hourChart, dowChart;
+
+  function applyChartTheme() {
+    const tickColor = getCssVar("--text-light");
+    [hourChart, dowChart].forEach((chart) => {
+      if (!chart) return;
+      chart.options.scales.x.ticks.color = tickColor;
+      chart.update();
+    });
+  }
+
   function initCharts(stats) {
     const hourLabels = Array.from({ length: 24 }, (_, h) => `${String(h).padStart(2, "0")}h`);
+    const tickColor = getCssVar("--text-light");
 
-    new Chart(document.getElementById("hourChart"), {
+    hourChart = new Chart(document.getElementById("hourChart"), {
       type: "bar",
       data: {
         labels: hourLabels,
@@ -219,13 +322,13 @@
       options: {
         plugins: { legend: { display: false } },
         scales: {
-          x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+          x: { grid: { display: false }, ticks: { color: tickColor, font: { size: 9 } } },
           y: { display: false }
         }
       }
     });
 
-    new Chart(document.getElementById("dowChart"), {
+    dowChart = new Chart(document.getElementById("dowChart"), {
       type: "bar",
       data: {
         labels: DOW_LABELS,
@@ -248,7 +351,7 @@
       options: {
         plugins: { legend: { display: false } },
         scales: {
-          x: { grid: { display: false } },
+          x: { grid: { display: false }, ticks: { color: tickColor } },
           y: { display: false }
         }
       }
@@ -272,7 +375,9 @@
     const container = document.getElementById("timeline");
     CONTENT.milestones.forEach((item) => {
       let dateLabel;
-      if (item.date === "today") {
+      if (item.dateLabel) {
+        dateLabel = item.dateLabel;
+      } else if (item.date === "today") {
         dateLabel = formatDateLong(todayIso());
       } else if (!item.date) {
         dateLabel = "✏️ adicione a data";
@@ -280,17 +385,28 @@
         dateLabel = formatDateLong(item.date);
       }
 
+      const photosHtml = item.images && item.images.length
+        ? `<div class="timeline-photos">${item.images.map((file) =>
+            `<img src="assets/img/${file}" alt="${item.title}" loading="lazy" class="timeline-photo tilt">`
+          ).join("")}</div>`
+        : "";
+
       const el = document.createElement("div");
       el.className = "timeline-item reveal";
       el.innerHTML = `
         <div class="timeline-icon">${item.icon}</div>
-        <div class="timeline-card">
+        <div class="timeline-card tilt">
           <p class="timeline-date">${dateLabel}</p>
           <p class="timeline-title">${item.title}</p>
           <p class="timeline-text">${item.text}</p>
+          ${photosHtml}
         </div>
       `;
       container.appendChild(el);
+
+      el.querySelectorAll(".timeline-photo").forEach((img) => {
+        img.addEventListener("click", () => openLightbox(img.src, item.title));
+      });
     });
   }
 
@@ -317,42 +433,31 @@
 
   /* ---------- gallery ---------- */
 
-  function initGallery(photos) {
+  function initGallery(photos, storyPhotos) {
     const grid = document.getElementById("galleryGrid");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightboxImg");
-    const lightboxCaption = document.getElementById("lightboxCaption");
-    const lightboxClose = document.getElementById("lightboxClose");
 
-    photos.forEach((photo) => {
+    const all = [
+      ...storyPhotos.map((p) => ({ file: p.file, caption: p.caption })),
+      ...photos.map((p) => ({ file: p.file, caption: formatDateLong(p.date) }))
+    ];
+
+    all.forEach((photo) => {
       const item = document.createElement("div");
-      item.className = "gallery-item reveal";
+      item.className = "gallery-item tilt reveal";
       const img = document.createElement("img");
       img.src = `assets/img/${photo.file}`;
-      img.alt = `Foto de ${photo.date}`;
+      img.alt = photo.caption;
       img.loading = "lazy";
       item.appendChild(img);
 
-      item.addEventListener("click", () => {
-        lightboxImg.src = img.src;
-        const [y, m, d] = photo.date.split("-");
-        lightboxCaption.textContent = formatDateLong(`${y}-${m}-${d}`);
-        lightbox.classList.add("open");
-      });
+      const cap = document.createElement("span");
+      cap.className = "gallery-caption";
+      cap.textContent = photo.caption;
+      item.appendChild(cap);
+
+      item.addEventListener("click", () => openLightbox(img.src, photo.caption));
 
       grid.appendChild(item);
-    });
-
-    function closeLightbox() {
-      lightbox.classList.remove("open");
-    }
-
-    lightboxClose.addEventListener("click", closeLightbox);
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeLightbox();
     });
   }
 
@@ -391,25 +496,30 @@
   /* ---------- init ---------- */
 
   async function init() {
+    initThemeToggle();
     initNavbar();
     initBackgroundHearts();
     initLiveCounter(CONTENT.startDate);
+    initLightbox();
+    initParallax();
     initTimeline();
     initHistoricDay();
     initLetter();
 
-    const [stats, photos] = await Promise.all([
+    const [stats, photos, storyPhotos] = await Promise.all([
       fetch("data/stats.json").then((r) => r.json()),
-      fetch("data/photos.json").then((r) => r.json())
+      fetch("data/photos.json").then((r) => r.json()),
+      fetch("data/story-photos.json").then((r) => r.json())
     ]);
 
     initStatCards(stats);
     initLoveBoard(stats);
     initCharts(stats);
-    initGallery(photos);
+    initGallery(photos, storyPhotos);
 
-    // run reveal observer after dynamic content is in the DOM
+    // run reveal/tilt observers after dynamic content is in the DOM
     initRevealObserver();
+    initTilt();
   }
 
   document.addEventListener("DOMContentLoaded", init);
