@@ -76,7 +76,7 @@ const CONTENT = {
       date: "",
       icon: "✏️",
       title: "Nosso primeiro encontro",
-      text: "Espaço reservado pra vocês! Edite este card em data/content.js e contem como foi a primeira vez que se viram pessoalmente depois do reencontro."
+      text: "Dia 01/07/2025 - o dia do pedido oficial da volta de Luren ao som de Jorge e Mateus!"
     },
     {
       date: "",
