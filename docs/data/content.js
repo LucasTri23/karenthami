@@ -101,8 +101,8 @@ const CONTENT = {
     dateLabel: "28 de junho de 2025",
     messages: 1028,
     title: "O dia em que o WhatsApp quase travou",
-    text: "Nesse sábado, Lucas estava em um compromisso o dia inteiro (e olha, até apareceu de terno!), bem longe da Karen. Resultado: o \"bom dia\" às 6h30 virou uma maratona de mensagens que só terminou perto da meia-noite, com um \"Te amo. Te amo.\" antes de dormir. No total, 1.028 mensagens em 24 horas — nosso recorde de todos os tempos. Ou seja: distância física é fácil quando a vontade de falar um com o outro é maior. 👀💌",
-    photo: "casal-2.jpg"
+    text: "Nesse sábado, Lucas estava em um compromisso o dia inteiro (Indicador do congresso!), bem longe da Karen. Resultado: o \"bom dia\" às 6h30 virou uma maratona de mensagens que só terminou perto da meia-noite, com um \"Te amo. Te amo.\" antes de dormir. No total, 1.028 mensagens em 24 horas — nosso recorde de todos os tempos. Ou seja: distância física é fácil quando a vontade de falar um com o outro é maior. 👀💌",
+    photo: "casal-7.jpg"
   },
 
   // ----------------------------------------------------------
