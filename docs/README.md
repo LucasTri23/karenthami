@@ -13,7 +13,7 @@ pronto para subir no **GitHub Pages**.
 Qualquer servidor estático serve. O mais simples:
 
 ```bash
-cd site
+cd docs
 python -m http.server 8000
 ```
 
@@ -25,19 +25,11 @@ Depois abra http://localhost:8000 no navegador.
 
 ## Publicar no GitHub Pages
 
-1. Crie um repositório novo no GitHub (pode ser privado).
-2. Dentro da pasta `site/`, rode:
-   ```bash
-   git init
-   git add .
-   git commit -m "Primeira versão do site"
-   git branch -M main
-   git remote add origin <URL_DO_SEU_REPOSITORIO>
-   git push -u origin main
-   ```
-3. No GitHub: **Settings → Pages → Source → Deploy from a branch**,
-   escolha a branch `main` e a pasta `/ (root)`.
-4. Em alguns minutos o site fica disponível em
+Este site fica na pasta `docs/` do repositório.
+
+1. No GitHub: **Settings → Pages → Source → Deploy from a branch**,
+   escolha a branch `main` e a pasta `/docs`.
+2. Em alguns minutos o site fica disponível em
    `https://<seu-usuario>.github.io/<nome-do-repositorio>/`.
 
 ## Como editar o conteúdo
@@ -65,4 +57,4 @@ Basta editar o arquivo, salvar e atualizar a página.
 
 Se quiser atualizar os números/fotos com um export mais recente do
 WhatsApp, os scripts usados para gerar esses arquivos
-(`analyze.py` e `extract_photos.py`) estão na pasta acima de `site/`.
+(`analyze.py` e `extract_photos.py`) estão na pasta acima de `docs/`.

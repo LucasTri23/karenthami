@@ -3,7 +3,7 @@ from collections import defaultdict
 from PIL import Image
 
 ZIP = "Conversa do WhatsApp com Amor ♥️ (3).zip"
-OUT = "site/assets/img"
+OUT = "docs/assets/img"
 
 pat = re.compile(r'^IMG-(\d{4})(\d{2})(\d{2})-WA(\d+)\.(jpg|jpeg|png)$', re.IGNORECASE)
 
@@ -58,7 +58,7 @@ for (year, month), (day, seq, name, size) in selected:
     manifest.append({"file": out_name, "date": f"{year}-{month}-{day}"})
 
 import json
-with open('site/data/photos.json', 'w', encoding='utf-8') as f:
+with open('docs/data/photos.json', 'w', encoding='utf-8') as f:
     json.dump(manifest, f, ensure_ascii=False, indent=2)
 
 print(f"Done. {len(manifest)} photos written.", file=sys.stderr)
